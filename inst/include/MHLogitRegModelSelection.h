@@ -12,23 +12,30 @@
 #include <stdio.h>
 class MHLogitRegModelSelection{
 private:
-    mat X;
+    imat X;
     colvec y;
     int n;
     int p;
-    vec VCramer;
-    vec CurrentModel;
-    vec BestModel;
+    colvec VCramer;
+    ivec CurrentModel;
+    ivec BestModel;
+    ivec CandidateModel;
     colvec CurrentFit;
-    colvecBestFit;
-    long double BestBic;
+    colvec BestFit;
+    colvec CandidateFit;
     long double CurrentBic;
+    long double BestBic;
+    long double CandidateBic;
     int maxit;
+    int iter;
+    
 
 public:
-    double GenerateCandidate();
-    void UpdateProbaCandidate();
-    MHLogitRegModelSelection(colvec & yin, mat & Xin, int & maxitin);
+    void FirstModelFit();
+    long double GenerateCandidate();
+    void UpdateBicCandidate();
+    List MHRun();
+    MHLogitRegModelSelection(colvec & yin, imat & Xin, colvec & vcin,  int  maxitin);
     ~MHLogitRegModelSelection(){}; //Destructor
     
     

@@ -28,13 +28,13 @@ public:
     
     
     
-    void ComputeGradient(void);
-    void ComputeHessian(void);
-    void NewtonRaphsonUpdate(void);
-    colvec ShowCoefficient(void); 
-    bool Continue(void); 
-    long double twiceloglik(void);
-    
+    void ComputeGradient();
+    void ComputeHessian();
+    void NewtonRaphsonUpdate();
+    colvec ShowCoefficient(); 
+    bool Continue(); 
+    long double twiceloglik();
+    void Run();
     LogisticRegression(colvec & yin,  mat & Xin, colvec & start); // Constructor
     LogisticRegression();
     ~LogisticRegression(){} ; // Destructor

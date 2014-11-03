@@ -58,7 +58,7 @@ LogisticRegression::LogisticRegression()
   this->again = false; 
 };
 
-void LogisticRegression::ComputeGradient(void){
+void LogisticRegression::ComputeGradient(){
   
   colvec pi = ones<colvec>(n)/(ones<colvec>(n) + exp(-(X*beta))); //compute sigmoid
   gradient = X.t()*(y - pi);
@@ -67,12 +67,12 @@ void LogisticRegression::ComputeGradient(void){
 };
 
 
-void LogisticRegression::ComputeHessian(void)
+void LogisticRegression::ComputeHessian()
 {
   hessian = X.t()*W*X;
 };
 
-void LogisticRegression::NewtonRaphsonUpdate(void)
+void LogisticRegression::NewtonRaphsonUpdate()
 {
   iter++;
   colvec oldbeta(beta);
@@ -81,18 +81,18 @@ void LogisticRegression::NewtonRaphsonUpdate(void)
    again = false;
 };
 
-vec LogisticRegression::ShowCoefficient(void)
+vec LogisticRegression::ShowCoefficient()
 {
   return(beta);
 };
 
 
-bool LogisticRegression::Continue(void)
+bool LogisticRegression::Continue()
 {
   return(again);
 }
 
-long double LogisticRegression::twiceloglik(void)
+long double LogisticRegression::twiceloglik()
 {
   colvec xb = X*beta;
   long double l = 2 * sum(y%xb - log(ones<colvec>(n)+exp(xb)));
@@ -100,9 +100,22 @@ long double LogisticRegression::twiceloglik(void)
 };
 
 
+void LogisticRegression::Run()
+{
+  
+  while(Continue()==true)
+  {
+    ComputeGradient();
+    ComputeHessian();
+    NewtonRaphsonUpdate();
+  }
+
+ 
+};
+
 //arma::vec RcppLogisticRegression(arma::colvec Y, arma::mat X, arma::colvec beta)
 //[[Rcpp::export]]
-long double RcppLogisticRegression(arma::colvec Y, arma::mat X, arma::colvec beta)
+List RcppLogisticRegression(arma::colvec Y, arma::mat X, arma::colvec beta)
 {
   LogisticRegression myReg(Y,X,beta);
   while(myReg.Continue()==true)
@@ -113,5 +126,8 @@ long double RcppLogisticRegression(arma::colvec Y, arma::mat X, arma::colvec bet
   }
 
   //return(myReg.ShowCoefficient());
-  return(myReg.twiceloglik());
+  //return(myReg.twiceloglik());
+  return List::create(Named("twiceloglik") = myReg.twiceloglik(),
+                      Named("coefficients") = myReg.ShowCoefficient());  
+  
 };
