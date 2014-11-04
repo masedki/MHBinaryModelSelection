@@ -5,3 +5,7 @@ RcppLogisticRegression <- function(Y, X, beta) {
     .Call('MHBinaryModelSelection_RcppLogisticRegression', PACKAGE = 'MHBinaryModelSelection', Y, X, beta)
 }
 
+RcppMHModelSelection <- function(Y, X, VCin, MAXIT) {
+    .Call('MHBinaryModelSelection_RcppMHModelSelection', PACKAGE = 'MHBinaryModelSelection', Y, X, VCin, MAXIT)
+}
+

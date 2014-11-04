@@ -24,3 +24,21 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// RcppMHModelSelection
+List RcppMHModelSelection(arma::colvec Y, arma::mat X, arma::colvec VCin, int MAXIT);
+RcppExport SEXP MHBinaryModelSelection_RcppMHModelSelection(SEXP YSEXP, SEXP XSEXP, SEXP VCinSEXP, SEXP MAXITSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< arma::colvec >::type Y(YSEXP );
+        Rcpp::traits::input_parameter< arma::mat >::type X(XSEXP );
+        Rcpp::traits::input_parameter< arma::colvec >::type VCin(VCinSEXP );
+        Rcpp::traits::input_parameter< int >::type MAXIT(MAXITSEXP );
+        List __result = RcppMHModelSelection(Y, X, VCin, MAXIT);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
