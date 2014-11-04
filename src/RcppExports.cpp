@@ -2,53 +2,22 @@
 // Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #include <RcppArmadillo.h>
+#include <RcppEigen.h>
 #include <Rcpp.h>
 
 using namespace Rcpp;
 
 // RcppLogisticRegression
-List RcppLogisticRegression(arma::colvec Y, arma::mat X, arma::colvec beta);
+List RcppLogisticRegression(NumericVector& Y, NumericMatrix& X, NumericVector& beta);
 RcppExport SEXP MHBinaryModelSelection_RcppLogisticRegression(SEXP YSEXP, SEXP XSEXP, SEXP betaSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< arma::colvec >::type Y(YSEXP );
-        Rcpp::traits::input_parameter< arma::mat >::type X(XSEXP );
-        Rcpp::traits::input_parameter< arma::colvec >::type beta(betaSEXP );
+        Rcpp::traits::input_parameter< NumericVector& >::type Y(YSEXP );
+        Rcpp::traits::input_parameter< NumericMatrix& >::type X(XSEXP );
+        Rcpp::traits::input_parameter< NumericVector& >::type beta(betaSEXP );
         List __result = RcppLogisticRegression(Y, X, beta);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
-END_RCPP
-}
-// RcppMHModelSelection
-List RcppMHModelSelection(arma::colvec Y, arma::imat X, arma::colvec VCin, int MAXIT);
-RcppExport SEXP MHBinaryModelSelection_RcppMHModelSelection(SEXP YSEXP, SEXP XSEXP, SEXP VCinSEXP, SEXP MAXITSEXP) {
-BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< arma::colvec >::type Y(YSEXP );
-        Rcpp::traits::input_parameter< arma::imat >::type X(XSEXP );
-        Rcpp::traits::input_parameter< arma::colvec >::type VCin(VCinSEXP );
-        Rcpp::traits::input_parameter< int >::type MAXIT(MAXITSEXP );
-        List __result = RcppMHModelSelection(Y, X, VCin, MAXIT);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
-END_RCPP
-}
-// rcpp_hello_world
-List rcpp_hello_world();
-RcppExport SEXP MHBinaryModelSelection_rcpp_hello_world() {
-BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        List __result = rcpp_hello_world();
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
