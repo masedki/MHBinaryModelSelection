@@ -23,9 +23,9 @@ private:
     colvec CurrentFit;
     colvec BestFit;
     colvec CandidateFit;
-    long double CurrentBic;
-    long double BestBic;
-    long double CandidateBic;
+    double CurrentBic;
+    double BestBic;
+    double CandidateBic;
     int maxit;
     int iter;
     

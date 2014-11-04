@@ -72,16 +72,16 @@ void MHLogitRegModelSelection::FirstModelFit()
   if(runif() > 0.5)
   CurrentModel(j) = 1;
   
-  while(sum(CurrentModel)==0)
-  {
-    CurrentModel = zeros<ivec>(p);
-    for(int j = 0; j < p; ++j)
-    if(runif() > 0.5)
-    CurrentModel(j) = 1;
-  }
+//  while(sum(CurrentModel)==0)
+//  {
+//    CurrentModel = zeros<ivec>(p);
+//    for(int j = 0; j < p; ++j)
+//    if(runif() > 0.5)
+//    CurrentModel(j) = 1;
+//  }
   CandidateModel = Col<int>(CurrentModel);
   uvec idx = find(CurrentModel==1);
-  Rcout << " idx  = \n" << idx << endl;
+  //Rcout << " idx  = \n" << idx << endl;
   mat Xc = Mat<double>(X.cols(idx));
   colvec start = zeros<colvec>(sum(CandidateModel)+1);
   List MyReg = glm(Named("formula") = asformula("y~."), 
@@ -92,8 +92,8 @@ void MHLogitRegModelSelection::FirstModelFit()
   //LogisticRegression MyReg(y, Xc, start);
   //MyReg.Run();
   //CurrentBic = MyReg.twiceloglik() - log(n)*(idx.size()+1);
-  Rcout << " MyReg[aic]  = " << as<double>(MyReg["aic"]) << endl;
-  CurrentBic = -as<double>(MyReg["aic"]) + (2 - log(n))*(idx.size()+1);
+  //Rcout << " MyReg[aic]  = " << -as<double>(MyReg["aic"]) << endl;
+  CurrentBic = -abs(as<double>(MyReg["aic"])) + (2 - log(n))*(idx.size()+1);
   BestBic =  CurrentBic;
   BestModel = Col<int>(CurrentModel);
   //CurrentFit = Col<double>(MyReg.ShowCoefficient());
@@ -161,7 +161,7 @@ void MHLogitRegModelSelection::UpdateBicCandidate()
   //LogisticRegression MyReg(y, Xc, start);
   //MyReg.Run();
   //CurrentBic = MyReg.twiceloglik() - log(n)*(idx.size()+1);
-  CandidateBic = - as<double>(MyReg["aic"]) + (2 - log(n))*(idxcand.size()+1);
+  CandidateBic = -abs(as<double>(MyReg["aic"])) + (2 - log(n))*(idxcand.size()+1);
   CandidateFit = as<colvec>(MyReg["coefficients"]);
 }
 
