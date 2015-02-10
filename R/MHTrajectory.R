@@ -19,9 +19,17 @@ MHTrajectory <- function(ae,
   
   #un premier modèle avant d'entrer dans la boucle
   current.model <- rbinom(p, size = 1, prob = rep(1/2, p))
-  X <- x[,(1:p)[current.model==1]]
-  vars <- paste("X[,",1:ncol(X),"]",sep="")
-  fla <- paste("y~", paste(vars, collapse="+"))
+  
+  # pour éviter de se casser la gueule en cas de modèle avec constante.
+  if(sum(current.model)==0)
+  {
+    fla <- "y~1."
+  }
+  else{
+    X <- x[,(1:p)[current.model==1]]
+    vars <- paste("X[,",1:ncol(X),"]",sep="")
+    fla <- paste("y~", paste(vars, collapse="+"))
+  }
   current.fit <- glm(as.formula(fla), family = binomial, data = data.frame(y=y,X=X))
   twice.log.lik <- -current.fit$aic + 2*length(current.fit$coef)
   current.model.bic <-  twice.log.lik - log(n)*length(current.fit$coef)
@@ -125,7 +133,7 @@ MHTrajectory <- function(ae,
                  acceptedmodel = NULL,
                  best.model = NULL, 
                  best.model.bic = NULL, 
-                 best.fit = NULL,
+                 #best.fit = NULL,
                  time = NULL)
   
   output$trajectory <- trajectory
@@ -134,7 +142,7 @@ MHTrajectory <- function(ae,
   output$acceptedmodel <- acceptedmodel
   output$best.model <- best.model
   output$best.model.bic <- best.model.bic
-  output$best.fit <- best.fit
+  #output$best.fit <- best.fit
   output$time <- proc.time() - t0
   return(output)
 }
